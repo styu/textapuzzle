@@ -24,6 +24,18 @@ exports.Parser.prototype = {
     }
   },
   isNotSolution: function() {
+    var puzzleNumber = '';
+    for (var i = 0; i < this.command.length; i++) {
+      if (!isNaN(parseFloat(this.command.substr(i, i+1))) && isFinite(this.command.substr(i, i+1))) {
+        puzzleNumber += this.command.substr(i, i+1);
+      } else {
+        break;
+      }
+    }
+    if (puzzleNumber.length > 0) {
+      this.option = this.command.substr(puzzleNumber.length);
+      this.command = puzzleNumber;
+    }
     if (this.option == undefined || this.errormsg != undefined) {
       return true;
     }
@@ -45,7 +57,7 @@ exports.Parser.prototype = {
     if (puzzleObject.isCorrect(this.command, this.option)) {
       return "Congratulations, your answer is correct!";
     } else {
-      return "I'm sorry, your answer, '" + this.option + "', is incorrect. Please make sure there is a space between the puzzle number and the solution.";
+      return "I'm sorry, your answer, '" + this.option + "', is incorrect.";
     }
   }
 };
