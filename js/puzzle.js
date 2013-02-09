@@ -73,7 +73,6 @@ exports.Puzzle.prototype = {
    * correct.
    */
   isCorrect: function(problem, answer) {
-    util.puts('> ' + (this.solutions[problem].indexOf(answer) >= 0));
     return this.solutions[problem].indexOf(answer) >= 0;
   }
 };

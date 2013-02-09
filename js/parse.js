@@ -35,6 +35,16 @@ exports.Parser = function(text) {
   this.command = undefined;
   this.option = undefined;
   this.errormsg = undefined;
+
+  /******** CUSTOMIZE MESSAGES HERE ********/
+  this.EMPTY_TEXT = "You sent an empty text!";
+  this.HELP_TEXT = "Text [PUZZLE NUMBER] [SOLUTION] and we'll let you know if you are correct";
+  this.PARSE_ERROR_TEXT = "I'm sorry, I cannot parse your text. Text 'help' for help.";
+  this.PROBLEM_NOT_EXISTS_TEXT = "I'm sorry, that is not a problem in this mystery hunt";
+  this.CORRECT_ANSWER_TEXT = "Congratulations, your answer is correct!";
+  this.INCORRECT_ANSWER_TEXT = function() {
+    return "I'm sorry, your answer, '" + this.option + "' to problem " + this.command + ", is incorrect.";
+  }
 }
 
 exports.Parser.prototype = {
@@ -47,7 +57,7 @@ exports.Parser.prototype = {
   parse: function() {
     var t = trim(this.text).split(' ');
     if (t.length === 0) {
-      this.errormsg = 'You sent an empty text!';
+      this.errormsg = this.EMPTY_TEXT;
     } else if (t.length === 1) {
       this.command = t[0].toUpperCase();
       var puzzleNumber = '';
@@ -87,9 +97,9 @@ exports.Parser.prototype = {
     if (this.errormsg != undefined) {
       return this.errormsg
     } else if (this.command === 'HELP') {
-      return "Text [PUZZLE NUMBER] [SOLUTION] and we'll let you know if you are correct";
+      return this.HELP_TEXT;
     } else {
-      return "I'm sorry, I cannot parse your text. Text 'help' for help."
+      return this.PARSE_ERROR_TEXT;
     }
   },
 
@@ -100,12 +110,12 @@ exports.Parser.prototype = {
   parseSolution: function(puzzleObject) {
     // Messages can be modified to your liking
     if (!puzzleObject.problemExists(this.command)) {
-      return "I'm sorry, that is not a problem in this mystery hunt";
+      return this.PROBLEM_NOT_EXISTS_TEXT;
     }
     if (puzzleObject.isCorrect(this.command, this.option)) {
-      return "Congratulations, your answer is correct!";
+      return this.CORRECT_ANSWER_TEXT;
     } else {
-      return "I'm sorry, your answer, '" + this.option + "' to problem " + this.command + ", is incorrect.";
+      return this.INCORRECT_ANSWER_TEXT();
     }
   }
 };
