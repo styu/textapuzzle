@@ -1,8 +1,6 @@
 /**
- * A very simple node web server that will respond to requests
- * with the Tropo WebAPI JSON version of "Hello, World!" 
+ * Required modules
  */
-
 var http = require('http'),
     util = require('util'),
     fs = require('fs'),
@@ -10,8 +8,15 @@ var http = require('http'),
     parse = require('./parse'),
     tropowebapi = require('tropo-webapi');
 
+/**
+ * Name of the files the problems and solutions are in.
+ * Both files are in the puzzle/ directory, and can be
+ * named whatever, so long as these variables are 
+ * updated accordingly
+ */
 var PROBLEM_FILE = 'problems',
     SOLUTION_FILE = 'solutions';
+
 var puzzleObject = new puzzle.Puzzle(PROBLEM_FILE, SOLUTION_FILE);
 puzzleObject.init();
 
@@ -26,8 +31,8 @@ var server = http.createServer(function (request, response) {
         var session = JSON.parse(json);
         var tropo = new TropoWebAPI();
 
-        var text = session.session.initialText;
-        var answer = new parse.Parser(text);
+        var text = session.session.initialText;  // Text message sent in
+        var answer = new parse.Parser(text);     // Initialize new parser with text
         answer.parse();
         if (answer.isNotSolution()) {
           tropo.say(answer.parseSingleCommand());

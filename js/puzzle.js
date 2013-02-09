@@ -1,6 +1,9 @@
 var util = require('util'),
     fs = require('fs');
 
+/**
+ * Class that stores all the puzzle problems and answers
+ */
 exports.Puzzle = function(problemFile, solutionFile) {
   this.problemFile = problemFile;
   this.solutionFile = solutionFile;
@@ -9,10 +12,19 @@ exports.Puzzle = function(problemFile, solutionFile) {
 }
 
 exports.Puzzle.prototype = {
+  /**
+   * Initializes the Puzzle object with data
+   * from user defined files.
+   */
   init: function() {
     this.loadProblems();
     this.loadSolutions();
   },
+
+  /**
+   * Loads the problems from the problems file into the
+   * problems array
+   */
   loadProblems: function() {
     var data = fs.readFileSync('../puzzle/' + this.problemFile);
     var lines = data.toString('utf8').split('\n');
@@ -26,6 +38,11 @@ exports.Puzzle.prototype = {
     }
     util.puts('Problems loaded');
   },
+
+  /**
+   * Loads the solutions from the solutions file into
+   * the solutions dictionary
+   */
   loadSolutions: function() {
     var data = fs.readFileSync('../puzzle/' + this.solutionFile);
     var lines = data.toString('utf8').split('\n');
@@ -43,10 +60,20 @@ exports.Puzzle.prototype = {
     }
     util.puts('Solutions loaded');
   },
+
+  /**
+   * Checks if the given problem exists in the problems array
+   */
   problemExists: function(problem) {
     return problem in this.problems;
   },
+
+  /**
+   * Checks whether the given answer form the given problem is
+   * correct.
+   */
   isCorrect: function(problem, answer) {
-    return this.solutions[problem] == answer;
+    util.puts('> ' + (this.solutions[problem].indexOf(answer) >= 0));
+    return this.solutions[problem].indexOf(answer) >= 0;
   }
 };
