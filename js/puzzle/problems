@@ -1,11 +1,13 @@
 # Comments are like this
-# Structure problems like [NUMBER] [NAME]
-1 problem1
-2 problem2
-3 problem3
-4 problem4
-5 problem5
-6 problem6
-7 problem7
-8 problem8
+# Structure problems like [NUMBER] [RESPONSE]
+# [RESPONSE] is whatever feedback you want to give in response to a correct answer to the problem
+# If you don't have any, just leave a space after [NUMBER]
+1 GREEN S
+2 GREEN U
+3 GREEN R
+4 BLUE R
+5 BLUE O
+6 BLUE U
+7 BLUE N
+8 GREEN D
 META meta

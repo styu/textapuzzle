@@ -41,10 +41,17 @@ exports.Parser = function(text) {
   this.HELP_TEXT = "Text [PUZZLE NUMBER] [SOLUTION] and we'll let you know if you are correct";
   this.PARSE_ERROR_TEXT = "I'm sorry, I cannot parse your text. Text 'help' for help.";
   this.PROBLEM_NOT_EXISTS_TEXT = "I'm sorry, that is not a problem in this mystery hunt";
-  this.CORRECT_ANSWER_TEXT = "Congratulations, your answer is correct!";
-  this.INCORRECT_ANSWER_TEXT = function() {
-    return "I'm sorry, your answer, '" + this.option + "' to problem " + this.command + ", is incorrect.";
+  this.CORRECT_ANSWER_TEXT = function() {
+    return "Congratulations, your answer, " + this.option +
+           " to problem " + this.command +
+           " is correct!";
   }
+  this.INCORRECT_ANSWER_TEXT = function() {
+    return "I'm sorry, your answer, '" + this.option +
+           "' to problem " + this.command +
+           ", is incorrect.";
+  }
+  /******** END OF CUSTOM MESSAGES ********/
 }
 
 exports.Parser.prototype = {
@@ -113,7 +120,7 @@ exports.Parser.prototype = {
       return this.PROBLEM_NOT_EXISTS_TEXT;
     }
     if (puzzleObject.isCorrect(this.command, this.option)) {
-      return this.CORRECT_ANSWER_TEXT;
+      return this.CORRECT_ANSWER_TEXT() + ' ' + puzzleObject.responseText(this.command);
     } else {
       return this.INCORRECT_ANSWER_TEXT();
     }

@@ -32,9 +32,10 @@ exports.Puzzle.prototype = {
     util.puts('Loading problems…');
     for (var i = 0; i < lines.length; i++) {
       if (lines[i].charAt(0) !== '#') {
-        var problem = lines[i].split(' ');
-        if (problem.length !== 2) throw 'Problem does not follow format';
-        this.problems[problem[0]] = problem[1];
+        if (lines[i].indexOf(' ') == -1) throw 'Problem does not follow format';
+        var response = lines[i].substr(lines[i].indexOf(' ') + 1),
+            problem = lines[i].substr(0, lines[i].indexOf(' '));
+        this.problems[problem] = response;
       }
     }
     util.puts('Problems loaded');
@@ -75,5 +76,12 @@ exports.Puzzle.prototype = {
    */
   isCorrect: function(problem, answer) {
     return this.solutions[problem].indexOf(answer) >= 0;
+  },
+
+  /**
+   * Returns any response text that the problems may have
+   */
+  responseText: function(problem) {
+    return this.problems[problem];
   }
 };
