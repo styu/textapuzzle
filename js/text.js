@@ -26,7 +26,7 @@ var server = http.createServer(function (request, response) {
     request.addListener('data', function(data){
         json = data.toString();
     });
-     
+
     request.addListener('end', function() {
         var session = JSON.parse(json);
         var tropo = new TropoWebAPI();
@@ -45,7 +45,7 @@ var server = http.createServer(function (request, response) {
         response.end(tropowebapi.TropoJSON(tropo));
     });
 
-}).listen(8000); // Listen on port 8000 for requests.
+}).listen(80); // Listen on port 8000 for requests.
 
 /* server started */  
 util.puts('> textapuzzle running on port 8000');

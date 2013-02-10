@@ -9,6 +9,7 @@ exports.Puzzle = function(problemFile, solutionFile) {
   this.solutionFile = solutionFile;
   this.problems = {};
   this.solutions = {};
+  this.PATH = __dirname + '/puzzle/';
 }
 
 exports.Puzzle.prototype = {
@@ -26,7 +27,7 @@ exports.Puzzle.prototype = {
    * problems array
    */
   loadProblems: function() {
-    var data = fs.readFileSync('../puzzle/' + this.problemFile);
+    var data = fs.readFileSync(this.PATH + this.problemFile);
     var lines = data.toString('utf8').split('\n');
     util.puts('Loading problems…');
     for (var i = 0; i < lines.length; i++) {
@@ -44,7 +45,7 @@ exports.Puzzle.prototype = {
    * the solutions dictionary
    */
   loadSolutions: function() {
-    var data = fs.readFileSync('../puzzle/' + this.solutionFile);
+    var data = fs.readFileSync(this.PATH + this.solutionFile);
     var lines = data.toString('utf8').split('\n');
     util.puts('Loading solutions…');
     for (var i = 0; i < lines.length; i++) {
