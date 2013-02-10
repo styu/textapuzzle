@@ -2,12 +2,4 @@
 # Structure problems like [NUMBER] [RESPONSE]
 # [RESPONSE] is whatever feedback you want to give in response to a correct answer to the problem
 # If you don't have any, just leave a space after [NUMBER]
-1 GREEN S
-2 GREEN U
-3 GREEN R
-4 BLUE R
-5 BLUE O
-6 BLUE U
-7 BLUE N
-8 GREEN D
-META meta
+1 response
