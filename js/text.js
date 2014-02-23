@@ -6,7 +6,10 @@ var http = require('http'),
     fs = require('fs'),
     puzzle = require('./puzzle'),
     parse = require('./parse'),
-    tropowebapi = require('tropo-webapi');
+    tropowebapi = require('tropo-webapi'),
+    express = require("express");
+
+var app = express();
 
 /**
  * Name of the files the problems and solutions are in.
@@ -20,33 +23,29 @@ var PROBLEM_FILE = 'problems',
 var puzzleObject = new puzzle.Puzzle(PROBLEM_FILE, SOLUTION_FILE);
 puzzleObject.init();
 
-var server = http.createServer(function (request, response) {
-    // Create a new instance of the TropoWebAPI object.
-    var tropo = new tropowebapi.TropoWebAPI();
-    request.addListener('data', function(data){
-        json = data.toString();
-    });
+app.configure(function(){
+    app.use(express.bodyParser());
+});
 
-    request.addListener('end', function() {
-        var session = JSON.parse(json);
-        var tropo = new TropoWebAPI();
+app.post('/', function(req, res){
+    var tropo = new TropoWebAPI();
+    var session = req.body['session'];
 
-        var text = session.session.initialText;  // Text message sent in
+    if (session) {
+        var text = session.initialText;  // Text message sent in
         var answer = new parse.Parser(text);     // Initialize new parser with text
+        console.log(answer);
         answer.parse();
         if (answer.isNotSolution()) {
           tropo.say(answer.parseSingleCommand());
         } else {
           tropo.say(answer.parseSolution(puzzleObject));
         }
-     
-        // Render out the JSON for Tropo to consume.
-        response.writeHead(200, {'Content-Type': 'application/json'});
-        response.end(tropowebapi.TropoJSON(tropo));
-    });
-
-}).listen(80); // Listen on port 8000 for requests.
+        res.send(tropowebapi.TropoJSON(tropo));
+    }
+});
 
 /* server started */  
-util.puts('> textapuzzle running on port 8000');
+app.listen(80);
+console.log('> textapuzzle running on port 8000');
 
